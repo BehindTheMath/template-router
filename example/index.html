@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sellertrack</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script src="../dist/template-router.js"></script>
+</head>
+<body>
+<div id="header" style="text-align: center;"><a href="/"><h1>TemplateRouter Example</h1></a></div>
+<div id="page"></div>
+<script>
+    const usersTemplate = Handlebars.compile(`
+        <table>
+            <thead>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Username</td>
+                <td>Email</td>
+                <td>Phone</td>
+            </thead>
+            <tbody>
+                {{#each users}}
+                    <tr>
+                        <td><a href="/users/{{id}}">{{id}}</a></td>
+                        <td>{{name}}</td>
+                        <td>{{username}}</td>
+                        <td>{{email}}</td>
+                        <td>{{phone}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>`);
+
+    const userTemplate = Handlebars.compile(`
+        <div><a href="/users">Back to users...</a></div>
+        <p></p>
+        <div>
+            <table>
+                <tr><td>ID:</td><td>{{id}}</td></tr>
+                <tr><td>Name:</td><td>{{name}}</td></tr>
+                <tr><td>Username:</td><td>{{username}}</td></tr>
+                <tr><td>Email:</td><td>{{email}}</td></tr>
+                <tr><td>Phone:</td><td>{{phone}}</td></tr>
+            </table>
+        </div>`);
+</script>
+
+<script>
+    TemplateRouter.page("/", function () {
+        document.querySelector("div#page").innerHTML = '<a href="/users">Users...</a>';
+    });
+
+    TemplateRouter.route([
+        {
+            route: "/users",
+            template: usersTemplate,
+            endpoint: "https://jsonplaceholder.typicode.com/users",
+            querySelector: "div#page",
+            beforeRender: function (ctx) {
+                ctx.middlewareInfo.data = {users: ctx.middlewareInfo.data};
+                return ctx;
+            }
+        },
+        {
+            route: "/users/:id",
+            template: userTemplate,
+            querySelector: "div#page",
+            beforeFetch: function (ctx) {
+                ctx.middlewareInfo.endpoint = `https://jsonplaceholder.typicode.com/users/${ctx.params.id}`;
+                return ctx;
+            }
+        }
+    ]);
+
+    TemplateRouter.page();
+
+</script>
+</body>
+</html>
