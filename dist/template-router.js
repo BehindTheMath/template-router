@@ -134,94 +134,88 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 
-var TemplateRouter = /** @class */ (function () {
-    function TemplateRouter() {
+var TemplateRouter = function TemplateRouter(routeInfos) {
+    if (!Array.isArray(routeInfos) && typeof routeInfos === "object") {
+        __WEBPACK_IMPORTED_MODULE_0_page___default()(routeInfos.route, getLoadPageFunction(routeInfos));
     }
-    TemplateRouter.route = function (routeInfos) {
-        if (!Array.isArray(routeInfos) && typeof routeInfos === "object") {
-            __WEBPACK_IMPORTED_MODULE_0_page___default()(routeInfos.route, TemplateRouter.getLoadPageFunction(routeInfos));
-        }
-        else if (Array.isArray(routeInfos)) {
-            routeInfos.forEach(function (routeInfo) { return __WEBPACK_IMPORTED_MODULE_0_page___default()(routeInfo.route, TemplateRouter.getLoadPageFunction(routeInfo)); });
-        }
-        return TemplateRouter;
-    };
-    TemplateRouter.getLoadPageFunction = function (pageInfo) {
-        return function (ctx, next) {
-            return __awaiter(this, void 0, void 0, function () {
-                function callMiddleware(middleware) {
-                    var newCtx = ctx;
-                    if (middleware) {
-                        if (Array.isArray(middleware)) {
-                            middleware.forEach(function (singleMiddleware) {
-                                var tempCtx = singleMiddleware(newCtx);
-                                if (tempCtx)
-                                    newCtx = tempCtx;
-                            });
-                        }
-                        else if (typeof middleware === "function") {
-                            var tempCtx = middleware(newCtx);
+    else if (Array.isArray(routeInfos)) {
+        routeInfos.forEach(function (routeInfo) { return __WEBPACK_IMPORTED_MODULE_0_page___default()(routeInfo.route, getLoadPageFunction(routeInfo)); });
+    }
+};
+function getLoadPageFunction(pageInfo) {
+    return function (ctx, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            function callMiddleware(middleware) {
+                var newCtx = ctx;
+                if (middleware) {
+                    if (Array.isArray(middleware)) {
+                        middleware.forEach(function (singleMiddleware) {
+                            var tempCtx = singleMiddleware(newCtx);
                             if (tempCtx)
                                 newCtx = tempCtx;
-                        }
+                        });
                     }
-                    return newCtx;
+                    else if (typeof middleware === "function") {
+                        var tempCtx = middleware(newCtx);
+                        if (tempCtx)
+                            newCtx = tempCtx;
+                    }
                 }
-                var newCtx, beforeFetchMiddlewareInfo, data, beforeRenderMiddlewareInfo, html, afterRenderMiddlewareInfo;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            beforeFetchMiddlewareInfo = {
-                                querySelector: pageInfo.querySelector || "body",
-                                template: pageInfo.template,
-                                endpoint: pageInfo.endpoint,
-                            };
-                            ctx.middlewareInfo = beforeFetchMiddlewareInfo;
-                            newCtx = callMiddleware(pageInfo.beforeFetch);
-                            if (newCtx) {
-                                ctx = newCtx;
-                                if (newCtx.middlewareInfo.cancel)
-                                    next();
-                            }
-                            return [4 /*yield*/, fetch(ctx.middlewareInfo.endpoint).then(function (response) { return response.json(); })];
-                        case 1:
-                            data = _a.sent();
-                            beforeRenderMiddlewareInfo = {
-                                querySelector: ctx.middlewareInfo.querySelector,
-                                template: ctx.middlewareInfo.template,
-                                data: data
-                            };
-                            ctx.middlewareInfo = beforeRenderMiddlewareInfo;
-                            newCtx = callMiddleware(pageInfo.beforeRender);
-                            if (newCtx) {
-                                ctx = newCtx;
-                                if (newCtx.middlewareInfo.cancel)
-                                    next();
-                            }
-                            html = ctx.middlewareInfo.template(ctx.middlewareInfo.data);
-                            afterRenderMiddlewareInfo = {
-                                querySelector: ctx.middlewareInfo.querySelector,
-                                html: html
-                            };
-                            ctx.middlewareInfo = afterRenderMiddlewareInfo;
-                            newCtx = callMiddleware(pageInfo.afterRender);
-                            if (newCtx) {
-                                ctx = newCtx;
-                                if (newCtx.middlewareInfo.cancel)
-                                    next();
-                            }
-                            document.querySelector(ctx.middlewareInfo.querySelector).innerHTML = html;
-                            ctx.save();
-                            next();
-                            return [2 /*return*/];
-                    }
-                });
+                return newCtx;
+            }
+            var newCtx, beforeFetchMiddlewareInfo, data, beforeRenderMiddlewareInfo, html, afterRenderMiddlewareInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        beforeFetchMiddlewareInfo = {
+                            querySelector: pageInfo.querySelector || "body",
+                            template: pageInfo.template,
+                            endpoint: pageInfo.endpoint,
+                        };
+                        ctx.middlewareInfo = beforeFetchMiddlewareInfo;
+                        newCtx = callMiddleware(pageInfo.beforeFetch);
+                        if (newCtx) {
+                            ctx = newCtx;
+                            if (newCtx.middlewareInfo.cancel)
+                                next();
+                        }
+                        return [4 /*yield*/, fetch(ctx.middlewareInfo.endpoint).then(function (response) { return response.json(); })];
+                    case 1:
+                        data = _a.sent();
+                        beforeRenderMiddlewareInfo = {
+                            querySelector: ctx.middlewareInfo.querySelector,
+                            template: ctx.middlewareInfo.template,
+                            data: data
+                        };
+                        ctx.middlewareInfo = beforeRenderMiddlewareInfo;
+                        newCtx = callMiddleware(pageInfo.beforeRender);
+                        if (newCtx) {
+                            ctx = newCtx;
+                            if (newCtx.middlewareInfo.cancel)
+                                next();
+                        }
+                        html = ctx.middlewareInfo.template(ctx.middlewareInfo.data);
+                        afterRenderMiddlewareInfo = {
+                            querySelector: ctx.middlewareInfo.querySelector,
+                            html: html
+                        };
+                        ctx.middlewareInfo = afterRenderMiddlewareInfo;
+                        newCtx = callMiddleware(pageInfo.afterRender);
+                        if (newCtx) {
+                            ctx = newCtx;
+                            if (newCtx.middlewareInfo.cancel)
+                                next();
+                        }
+                        document.querySelector(ctx.middlewareInfo.querySelector).innerHTML = html;
+                        ctx.save();
+                        next();
+                        return [2 /*return*/];
+                }
             });
-        };
+        });
     };
-    TemplateRouter.page = __WEBPACK_IMPORTED_MODULE_0_page___default.a;
-    return TemplateRouter;
-}());
+}
+TemplateRouter.page = __WEBPACK_IMPORTED_MODULE_0_page___default.a;
 /* harmony default export */ __webpack_exports__["default"] = (TemplateRouter);
 
 
