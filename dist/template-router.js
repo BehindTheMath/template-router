@@ -137,9 +137,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var TemplateRouter = /** @class */ (function () {
     function TemplateRouter() {
     }
-    TemplateRouter.use = function (method) {
-        return TemplateRouter;
-    };
     TemplateRouter.route = function (routeInfos) {
         if (!Array.isArray(routeInfos) && typeof routeInfos === "object") {
             __WEBPACK_IMPORTED_MODULE_0_page___default()(routeInfos.route, TemplateRouter.getLoadPageFunction(routeInfos));

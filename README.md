@@ -76,8 +76,4 @@ This is the same as `beforeFetch`, except that it is called after the HTML is re
 
 The `ctx.middlewareInfo` property will have the `querySelector` property, as well as an `html` property, which contains the rendered HTML.
 
-### `static use(method: Function): TemplateRouter`
-By default, TemplateRouter will use [Handlebars](http://handlebarsjs.com/) for uncompiled templates. You can override that by passing a different templating engine's compile method to the `.use()` method. TemplateRouter will then call that method to compile the template before rendering.
-
 ### `static page: page`
-This is to access page.js directly.

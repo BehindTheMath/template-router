@@ -3,10 +3,6 @@ import page from "page";
 export default class TemplateRouter {
     static page = page;
 
-    static use(method: Function): TemplateRouter {
-        return TemplateRouter;
-    }
-
     static route(routeInfos: IRouteInfo | Array<IRouteInfo>): TemplateRouter {
         if (!Array.isArray(routeInfos) && typeof routeInfos === "object") {
             page(routeInfos.route, TemplateRouter.getLoadPageFunction(routeInfos));
