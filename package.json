@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "Behind The Math",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^8.0.58",
     "@types/page": "^1.5.32",
